@@ -3,6 +3,7 @@ using EwsChat.Data.Models;
 using NUnit.Framework;
 using System;
 using System.Linq;
+using Moq;
 
 namespace EwsChat.Data.Tests
 {
@@ -15,7 +16,7 @@ namespace EwsChat.Data.Tests
         public void Setup()
         {
             //would be a mock if using actual DB
-            _chatRoomRepository = new ChatRoomRepository();
+            _chatRoomRepository = new M
             _messageRepository = new MessageRepository(_chatRoomRepository);
         }
 
@@ -24,13 +25,13 @@ namespace EwsChat.Data.Tests
         {
             var message = new Message
             {
-                TargetRoomId = 1001,
+                ChatRoomId = 1001,
                 MessageId = Guid.NewGuid().ToString(),
                 Text = "Hello",
                 CreatedAt = DateTime.UtcNow
             };
 
-            _messageRepository.AddMessageAsync(message);
+            _messageRepository.AddMessage(message);
 
             var messagesFromRoom = _messageRepository.GetAllMessagesFromRoomAsync(1001).Result;
 
@@ -42,12 +43,12 @@ namespace EwsChat.Data.Tests
         {
             var message = new Message
             {
-                TargetRoomId = 1001,
+                ChatRoomId = 1001,
                 Text = "Hello",
                 CreatedAt = DateTime.UtcNow
             };
 
-            _messageRepository.AddMessageAsync(message);
+            _messageRepository.AddMessage(message);
 
             var messageFromRoom = _messageRepository.GetAllMessagesFromRoomAsync(1001).Result;
 
@@ -59,7 +60,7 @@ namespace EwsChat.Data.Tests
         public void AddMessageShouldThrowNullArgumentExceptoin()
         {
             Message message = null;
-            Assert.That(() => _messageRepository.AddMessageAsync(message), Throws.ArgumentNullException);
+            Assert.That(() => _messageRepository.AddMessage(message), Throws.ArgumentNullException);
         }
 
 
@@ -75,7 +76,7 @@ namespace EwsChat.Data.Tests
                 Text = emptyMessage
             };
 
-            Assert.That(() => _messageRepository.AddMessageAsync(message), Throws.TypeOf<InvalidMessageException>());
+            Assert.That(() => _messageRepository.AddMessage(message), Throws.TypeOf<InvalidMessageException>());
         }
         [Test]
         public void AddMessageShouldThrowRoomNotFoundException()
@@ -88,7 +89,7 @@ namespace EwsChat.Data.Tests
                 Text = "'sup guys!"
             };
 
-            Assert.That(() => _messageRepository.AddMessageAsync(message), Throws.TypeOf<RoomNotFoundException>());
+            Assert.That(() => _messageRepository.AddMessage(message), Throws.TypeOf<RoomNotFoundException>());
         }
 
         [Test]
@@ -170,9 +171,9 @@ namespace EwsChat.Data.Tests
                 Text = "What are you guys up to?"
             };
 
-            _messageRepository.AddMessageAsync(message1).Wait();
-            _messageRepository.AddMessageAsync(message2).Wait();
-            _messageRepository.AddMessageAsync(message3).Wait();
+            _messageRepository.AddMessage(message1).Wait();
+            _messageRepository.AddMessage(message2).Wait();
+            _messageRepository.AddMessage(message3).Wait();
         }
     }
 }

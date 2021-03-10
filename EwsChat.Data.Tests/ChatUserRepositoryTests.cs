@@ -25,7 +25,7 @@ namespace EwsChat.Data.Tests
                 ChatUserId = Guid.NewGuid().ToString()
             };
 
-            chatUserRespository.AddUserAsync(user).Wait();
+            chatUserRespository.AddUser(user).Wait();
             var userFromRecord = chatUserRespository.GetUserByIdAsync(user.ChatUserId).Result;
 
             Assert.That(userFromRecord, Is.Not.Null);
@@ -41,9 +41,9 @@ namespace EwsChat.Data.Tests
                 ChatRoomId = 1002
             };
 
-            chatUserRespository.AddUserAsync(user).Wait();
+            chatUserRespository.AddUser(user).Wait();
 
-            Assert.That(() => chatUserRespository.AddUserAsync(user), Throws.TypeOf<UserAlreadyExistsException>());
+            Assert.That(() => chatUserRespository.AddUser(user), Throws.TypeOf<UserAlreadyExistsException>());
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace EwsChat.Data.Tests
                 NickName = "HaavyMeat",
                 ChatUserId = idUser,
             };
-            chatUserRespository.AddUserAsync(heavyMeatUser).Wait();
+            chatUserRespository.AddUser(heavyMeatUser).Wait();
 
             var searchedUser = chatUserRespository.GetUserByIdAsync(idUser).Result;
 
@@ -94,7 +94,7 @@ namespace EwsChat.Data.Tests
                 NickName = "emily182",
                 ChatRoomId = punkRockRoomId
             };
-            chatUserRespository.AddUserAsync(anotherUser).Wait();
+            chatUserRespository.AddUser(anotherUser).Wait();
 
             var usersOfRoom = chatUserRespository.GetUsersOfRoomAsync(punkRockRoomId).Result;
             
@@ -113,11 +113,11 @@ namespace EwsChat.Data.Tests
                 NickName = "emily182",
                 ChatRoomId = 0
             };
-            chatUserRespository.AddUserAsync(user).Wait();
+            chatUserRespository.AddUser(user).Wait();
 
             user.ChatRoomId = punkRockRoom;
 
-            var updatedUser = chatUserRespository.UpdateUserAsync(user).Result;
+            var updatedUser = chatUserRespository.UpdateUser(user).Result;
 
             Assert.That(updatedUser.ChatRoomId, Is.EqualTo(punkRockRoom));
         }
@@ -126,9 +126,9 @@ namespace EwsChat.Data.Tests
         public void RemoveUserShouldRemoveGivenUserSuccessfully()
         {
             ChatUser userToRemove = AddTwoUsersAndReturnAnExtraUser();
-            chatUserRespository.AddUserAsync(userToRemove).Wait();
+            chatUserRespository.AddUser(userToRemove).Wait();
 
-            chatUserRespository.RemoveUserAsync(userToRemove.ChatUserId).Wait();
+            chatUserRespository.RemoveUser(userToRemove.ChatUserId).Wait();
             var updatedRepository = chatUserRespository.GetAllUsersAsync().Result;
 
 
@@ -141,7 +141,7 @@ namespace EwsChat.Data.Tests
         {
             var userThatWasntAdded = AddTwoUsersAndReturnAnExtraUser();
 
-            Assert.That(() => chatUserRespository.RemoveUserAsync(userThatWasntAdded.ChatUserId), Throws.TypeOf<UserNotFoundException>());
+            Assert.That(() => chatUserRespository.RemoveUser(userThatWasntAdded.ChatUserId), Throws.TypeOf<UserNotFoundException>());
         }
 
         private ChatUser AddTwoUsersAndReturnAnExtraUser()
@@ -171,8 +171,8 @@ namespace EwsChat.Data.Tests
                 ChatRoomId = 1001
             };
 
-            chatUserRespository.AddUserAsync(user1).Wait();
-            chatUserRespository.AddUserAsync(user2).Wait();
+            chatUserRespository.AddUser(user1).Wait();
+            chatUserRespository.AddUser(user2).Wait();
         }
     }
 }

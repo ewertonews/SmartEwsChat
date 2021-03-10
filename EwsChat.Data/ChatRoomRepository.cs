@@ -14,7 +14,11 @@ namespace EwsChat.Data
 
         public async Task<ChatRoom> GetChatRoomByIdAsync(int id)
         {
-            var chatRoom = await FindByCondition(room => room.ChatRoomId == id).FirstOrDefaultAsync();
+            var chatRoom = await FindByCondition(room => room.ChatRoomId == id)
+                .Include(room => room.Participants)
+                .Include(room => room.Messages)
+                .FirstOrDefaultAsync();
+
             if (chatRoom == null)
             {
                 throw new RoomNotFoundException("There is no Chat Room with the given ID.");
@@ -24,7 +28,7 @@ namespace EwsChat.Data
 
         public async Task<IEnumerable<ChatRoom>> GetChatRoomsAsync()
         {
-            return await FindAll().Include(cr => cr.Participants).ToListAsync();
+            return await FindAll().ToListAsync();
         }
     }
 }

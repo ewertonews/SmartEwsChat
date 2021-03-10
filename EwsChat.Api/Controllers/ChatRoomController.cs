@@ -1,42 +1,50 @@
 ﻿using EwsChat.Data;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 
 namespace EwsChat.Api.Controllers
 {
-    [Route("api/ewschat/rooms")]
     [ApiController]
+    [Route("api/ewschat/rooms")]   
+    [Produces("application/json")]
     public class ChatRoomController : ControllerBase
     {
-        private readonly IChatRoomRepository _chatRoomRepository;
+        private readonly IRepositoryFactory _repositoryFactory;
 
-        public ChatRoomController(IChatRoomRepository chatRoomRepository)
+        public ChatRoomController(IRepositoryFactory repositoryFactory)
         {
-            _chatRoomRepository = chatRoomRepository;
+            _repositoryFactory = repositoryFactory;
         }
 
+        /// <summary>
+        /// Gets all Chat Rooms in the EwsChat database.
+        /// </summary>
+        /// <returns>A list of Chat Room objects</returns>
         [HttpGet]
-        [Authorize]
         [ProducesResponseType(200)]
-        [ProducesResponseType(401)]
         public async Task<IActionResult> Get()
         {
-            var chatRooms = await _chatRoomRepository.GetChatRoomsAsync();
+            var chatRooms = await _repositoryFactory.ChatRoom.GetChatRoomsAsync();
             return new OkObjectResult(chatRooms);
         }
 
+       
+        /// <summary>
+        /// Gets all messages and participants from a Chat Room.
+        /// </summary>
+        /// <param name="chatRoomId"></param>
+        /// <returns>A Chat Room object</returns>
+        [Authorize]
         [HttpGet("{chatRoomId}")]
-        //[Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(404)]
-        [Produces("application/json")]
+        
         public async Task<IActionResult> Get(int chatRoomId)
         {
-            var chatRoom = await _chatRoomRepository.GetChatRoomByIdAsync(chatRoomId);
+            var chatRoom = await _repositoryFactory.ChatRoom.GetChatRoomByIdAsync(chatRoomId);
             return new OkObjectResult(chatRoom);
         }
 

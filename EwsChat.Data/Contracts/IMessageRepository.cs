@@ -8,7 +8,7 @@ namespace EwsChat.Data
 {
     public interface IMessageRepository : IRepositoryBase<Message>
     {
-        Task AddMessageAsync(Message message);
+        void AddMessage(Message message);
         Task<IEnumerable<Message>> GetAllMessagesAsync();
         Task<IEnumerable<Message>> GetAllMessagesFromRoomAsync(int roomId);
         Task<IEnumerable<Message>> GetLatestMessagesFromRoomAsync(int roomId, DateTime lastUpdate);

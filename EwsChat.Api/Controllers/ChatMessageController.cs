@@ -1,48 +1,70 @@
 ﻿using EwsChat.Data;
-using EwsChat.Data.Exceptions;
 using EwsChat.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace EwsChat.Api.Controllers
-{
-    [Route("api/ewschat/messages")]
+{   
+    [Authorize]
     [ApiController]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(404)]
+    [Produces("application/json")]
+    [Route("api/ewschat/messages")]
     public class ChatMessageController : ControllerBase
     {
-        private readonly IMessageRepository _messageRepository;
+        private readonly IRepositoryFactory _repositoryFactory;
 
-        public ChatMessageController(IMessageRepository messageRepository)
+        public ChatMessageController(IRepositoryFactory repositoryFactory)
         {
-            _messageRepository = messageRepository;
+            _repositoryFactory = repositoryFactory;
         }
 
-        [HttpGet("{roomId}")]
+        /// <summary>
+        /// Gets all messages from the Chat Room with the given ID.
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <returns></returns>
+        [ProducesResponseType(200)]
+        [HttpGet("{roomId}", Name = "roomById")]
         public async Task<IActionResult> Get(int roomId)
         {
-            var messages = await _messageRepository.GetAllMessagesFromRoomAsync(roomId);
+            var messages = await _repositoryFactory.Message.GetAllMessagesFromRoomAsync(roomId);
             return new OkObjectResult(messages);
         }
 
-        [HttpGet("{roomId}/{lastUpdated}")]
+        /// <summary>
+        /// Gets the  messages from a room that were created from the lastUpdated date onwards.
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <param name="lastUpdated"></param>
+        /// <returns></returns>
+        [ProducesResponseType(200)]
+        [HttpGet("{roomId}/{lastUpdated}")]       
         public async Task<IActionResult> Get(int roomId, string lastUpdated)
         {
-            DateTime dateLasteUpdated = DateTime.Parse(lastUpdated);
-            var messages = await _messageRepository.GetLatestMessagesFromRoomAsync(roomId, dateLasteUpdated);
+            DateTime dateLastUpdated = DateTime.Parse(lastUpdated);
+            var messages = await _repositoryFactory.Message.GetLatestMessagesFromRoomAsync(roomId, dateLastUpdated);
             return new OkObjectResult(messages);
         }
 
 
+        /// <summary>
+        /// Send a message to the a Chat Room.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         [HttpPost]
-        public  async Task<IActionResult> Post(Message message)
+        [ProducesResponseType(201)]
+        public async Task<IActionResult> Post(Message message)
         {
-            await _messageRepository.AddMessageAsync(message);
-            return Ok();
+            _repositoryFactory.Message.AddMessage(message);
+            await _repositoryFactory.SaveAsync();
+            return CreatedAtRoute("roomById", new { roomId = message.MessageId }, message);
         }
 
     }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace EwsChat.Data
 {
-    public class RepositoryFactory
+    public class RepositoryFactory : IRepositoryFactory
     {
         private ChatContext _chatContext;
         private IChatRoomRepository _chatRoomRepository;
@@ -52,7 +48,7 @@ namespace EwsChat.Data
                 }
                 return _messageRepository;
             }
-        }        
+        }
 
         public async Task SaveAsync()
         {

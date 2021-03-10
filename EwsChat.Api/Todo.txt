@@ -1,7 +1,0 @@
-﻿- https://medium.com/@srikanth.gunnala/generic-wrapper-to-consume-asp-net-web-api-rest-service-641b50462c0
-	* HttpClient Wrapper
-
-- OAuth2
-- Documentation
-- Generic Repository
-- Entity Framework

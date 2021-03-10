@@ -10,9 +10,9 @@ namespace EwsChat.Data
 {
     public interface IChatUserRespository : IRepositoryBase<ChatUser>
     {
-        Task AddUserAsync(ChatUser user);
+        void AddUser(ChatUser user);
 
-        Task RemoveUserAsync(string userId);
+        void RemoveUser(string userId);
 
         Task<IEnumerable<ChatUser>> GetAllUsersAsync();
 
@@ -20,6 +20,6 @@ namespace EwsChat.Data
 
         Task<ChatUser> GetUserByIdAsync(string userId);
 
-        Task<ChatUser> UpdateUserAsync(ChatUser updatedUser);
+        void UpdateUser(ChatUser updatedUser);
     }
 }

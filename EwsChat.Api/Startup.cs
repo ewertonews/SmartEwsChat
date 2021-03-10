@@ -26,11 +26,7 @@ namespace EwsChat.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();            
-
-            services.AddSingleton<IChatUserRespository, ChatUserRespository>();
-            services.AddSingleton<IChatRoomRepository, ChatRoomRepository>();
-            services.AddSingleton<IMessageRepository, MessageRepository>();
+            services.AddControllers();           
             services.AddSingleton<ILogger>(provider =>
                 provider.GetRequiredService<ILogger<ExceptionHandlerMiddleware>>());
 
@@ -38,10 +34,11 @@ namespace EwsChat.Api
             services.ConfigureAuthentication(Configuration);
             services.ConfigureAuthorization(Configuration);
             services.AddDbContext<ChatContext>(options => options.UseSqlite("Data Source=ewschat.db"));
+            services.AddScoped<IRepositoryFactory, RepositoryFactory>();
         }
 
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ChatContext chatContext)
         {
             if (env.IsDevelopment())
             {
@@ -50,6 +47,9 @@ namespace EwsChat.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EwsChat.Api v1"));
 
             }
+
+            chatContext.Database.EnsureDeleted();
+            chatContext.Database.EnsureCreated();
 
             app.UseExceptionHandlerMiddleware();
 

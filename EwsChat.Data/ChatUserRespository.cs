@@ -16,12 +16,10 @@ namespace EwsChat.Data
         }
 
 
-        public async Task AddUserAsync(ChatUser user)
+        public void AddUser(ChatUser user)
         {
             //check what exception does EF throws when sending a user with an existing nickname
-            await Task.Run(() => {
-                Create(user);
-            });            
+            Create(user);
         }
 
 
@@ -52,26 +50,20 @@ namespace EwsChat.Data
             return searchedUser;
         }
 
-        public async Task<ChatUser> UpdateUserAsync(ChatUser updatedUser)
+        public void UpdateUser(ChatUser updatedUser)
         {
             //check what exception does EF throw when sending user that does not exist
-            return await Task.Run(() =>
-            {
-                Update(updatedUser);
-                return updatedUser;
-            });
+            Update(updatedUser);
         }
 
-        public async Task RemoveUserAsync(string userId)
+        public void RemoveUser(string userId)
         {
-            var userToRemove = await GetUserByIdAsync(userId);
-
+            var userToRemove = GetUserByIdAsync(userId).Result;
             if (userToRemove == null)
             {
                 throw new UserNotFoundException("There is no user registered with given user id.");
             }
             Delete(userToRemove);
-        }
-        
+        }        
     }
 }

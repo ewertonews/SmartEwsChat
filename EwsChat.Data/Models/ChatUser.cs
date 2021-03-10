@@ -8,7 +8,6 @@ namespace EwsChat.Data.Models
     {
         public string ChatUserId { get; set; }
         public string NickName { get; set; }
-        public ChatRoom ChatRoom { get; set; }
         public int ChatRoomId { get; set; }
     }
 }
