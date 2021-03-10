@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Security.Claims;
 
 namespace EwsChat.Api.Extensions
@@ -42,7 +43,18 @@ namespace EwsChat.Api.Extensions
         {
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "EwsChat.Api", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "EwsChat API",
+                    Description = "Build by a SMART guy to a SMART company",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Ewerton Willams",
+                        Email = "ewerton.w.silva@outlook.com",
+                        Url = new Uri("https://linkedin.com/in/ewertonews"),
+                    }
+                }); 
+                
                 var securityScheme = new OpenApiSecurityScheme
                 {
                     Name = "JWT Authentication",
@@ -61,8 +73,7 @@ namespace EwsChat.Api.Extensions
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {securityScheme, new string[] { }}
-                });
-
+                });                
             });
         }
     }
