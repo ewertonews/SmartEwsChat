@@ -53,8 +53,8 @@ namespace EwsChat.Api.Extensions
                         Email = "ewerton.w.silva@outlook.com",
                         Url = new Uri("https://linkedin.com/in/ewertonews"),
                     }
-                }); 
-                
+                });
+
                 var securityScheme = new OpenApiSecurityScheme
                 {
                     Name = "JWT Authentication",
@@ -73,7 +73,7 @@ namespace EwsChat.Api.Extensions
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {securityScheme, new string[] { }}
-                });                
+                });
             });
         }
     }

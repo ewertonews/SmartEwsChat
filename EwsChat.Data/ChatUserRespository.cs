@@ -1,16 +1,14 @@
 ﻿using EwsChat.Data.Exceptions;
 using EwsChat.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EwsChat.Data
 {
     public class ChatUserRespository : RepositoryBase<ChatUser>, IChatUserRespository
     {
-        public ChatUserRespository(ChatContext context) : base(context) 
+        public ChatUserRespository(ChatContext context) : base(context)
         {
 
         }
@@ -42,7 +40,7 @@ namespace EwsChat.Data
         {
             var searchedUser = await FindByCondition(user => user.ChatUserId == userId).FirstOrDefaultAsync();
 
-            if(searchedUser == null)
+            if (searchedUser == null)
             {
                 throw new UserNotFoundException("There is no user registered with given user id");
             }
@@ -64,6 +62,6 @@ namespace EwsChat.Data
                 throw new UserNotFoundException("There is no user registered with given user id.");
             }
             Delete(userToRemove);
-        }        
+        }
     }
 }

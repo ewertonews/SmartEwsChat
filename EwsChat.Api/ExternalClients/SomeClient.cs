@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace EwsChat.Api.ExternalClients
@@ -17,7 +13,7 @@ namespace EwsChat.Api.ExternalClients
         public SomeClient(HttpClient httpClient) : base(httpClient)
         {
         }
-        
+
         public async Task<Something> GetSomethingAsync()
         {
             return await Get("https://someapi.ews.net");

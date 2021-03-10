@@ -1,6 +1,5 @@
 ﻿using EwsChat.Api.Controllers;
 using EwsChat.Data;
-using EwsChat.Data.Exceptions;
 using EwsChat.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -87,7 +86,7 @@ namespace EwsChat.Api.Tests
             var result = chatMessageController.Post(message).Result;
 
             Assert.That(result, Is.TypeOf<CreatedAtRouteResult>());
-        }        
+        }
 
     }
 }

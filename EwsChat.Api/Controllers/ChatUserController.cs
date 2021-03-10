@@ -1,12 +1,11 @@
 ﻿using EwsChat.Data;
-using EwsChat.Data.Exceptions;
 using EwsChat.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace EwsChat.Web.Controllers
-{       
+{
     [Authorize]
     [ApiController]
     [Route("api/ewschat/users")]
@@ -67,9 +66,9 @@ namespace EwsChat.Web.Controllers
         [ProducesResponseType(201)]
         public async Task<IActionResult> Post(ChatUser user)
         {
-             _repositoryFactory.ChatUser.AddUser(user);
+            _repositoryFactory.ChatUser.AddUser(user);
             await _repositoryFactory.SaveAsync();
-            return CreatedAtRoute("UserById",new { userId = user.ChatUserId }, user);
+            return CreatedAtRoute("UserById", new { userId = user.ChatUserId }, user);
         }
 
         /// <summary>

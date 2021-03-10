@@ -1,7 +1,6 @@
 using EwsChat.Api.Extensions;
 using EwsChat.Api.Middlewares;
 using EwsChat.Data;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,8 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
 
 namespace EwsChat.Api
 {
@@ -26,7 +23,7 @@ namespace EwsChat.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();           
+            services.AddControllers();
             services.AddSingleton<ILogger>(provider =>
                 provider.GetRequiredService<ILogger<ExceptionHandlerMiddleware>>());
 

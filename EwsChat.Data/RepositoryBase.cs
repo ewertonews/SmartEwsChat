@@ -33,6 +33,6 @@ namespace EwsChat.Data
         public void Delete(T entity)
         {
             ChatContext.Set<T>().Remove(entity);
-        }       
+        }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EwsChat.Data.Models
+﻿namespace EwsChat.Data.Models
 {
     public class ChatUser
     {

@@ -1,8 +1,4 @@
-﻿using EwsChat.Data.Models;
-using NUnit.Framework;
-using System;
-using EwsChat.Data.Exceptions;
-using System.Linq;
+﻿using NUnit.Framework;
 
 namespace EwsChat.Data.Tests
 {
@@ -21,6 +17,6 @@ namespace EwsChat.Data.Tests
         {
             Assert.Pass();
         }
-       
+
     }
 }
