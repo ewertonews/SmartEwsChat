@@ -11,8 +11,6 @@ using System.Threading.Tasks;
 
 namespace EwsChat.Api.Tests
 {
-    //TODO: Rewrite the failing tests. See here
-    //https://docs.microsoft.com/en-us/aspnet/core/test/middleware?view=aspnetcore-3.1
     public class ChatMessageControllerUnitTests
     {
         private Mock<IRepositoryFactory> repositoryFactoryMock;

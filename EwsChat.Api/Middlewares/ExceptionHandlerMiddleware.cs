@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace EwsChat.Api.Middlewares
 {
+    //TODO: Write unit tests
+    //https://docs.microsoft.com/en-us/aspnet/core/test/middleware?view=aspnetcore-3.1
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
