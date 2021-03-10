@@ -46,7 +46,7 @@ namespace EwsChat.Api.Extensions
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "EwsChat API",
-                    Description = "Build by a SMART guy to a SMART company",
+                    Description = "Built by a SMART guy to a SMART company.",
                     Contact = new OpenApiContact
                     {
                         Name = "Ewerton Willams",
