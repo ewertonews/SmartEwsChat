@@ -1,14 +1,16 @@
 ﻿using EwsChat.Data.Exceptions;
 using EwsChat.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EwsChat.Data
 {
     public class ChatUserRespository : RepositoryBase<ChatUser>, IChatUserRespository
     {
-        public ChatUserRespository(ChatContext context) : base(context)
+        public ChatUserRespository(ChatContext context) : base(context) 
         {
 
         }
@@ -16,14 +18,14 @@ namespace EwsChat.Data
 
         public void AddUser(ChatUser user)
         {
-            //check what exception does EF throws when sending a user with an existing nickname
+            //TODO: check what exception does EF throws when sending a user with an existing nickname
             Create(user);
         }
 
 
         public async Task<IEnumerable<ChatUser>> GetUsersOfRoomAsync(int roomId)
         {
-            //check what exception does EF throw when sending room that does not exist
+            //TODO: check what exception does EF throw when sending room that does not exist
             var chatUser = await FindByCondition(user => user.ChatRoomId.Equals(roomId)).ToListAsync();
             return chatUser;
         }
@@ -40,7 +42,7 @@ namespace EwsChat.Data
         {
             var searchedUser = await FindByCondition(user => user.ChatUserId == userId).FirstOrDefaultAsync();
 
-            if (searchedUser == null)
+            if(searchedUser == null)
             {
                 throw new UserNotFoundException("There is no user registered with given user id");
             }
@@ -50,7 +52,7 @@ namespace EwsChat.Data
 
         public void UpdateUser(ChatUser updatedUser)
         {
-            //check what exception does EF throw when sending user that does not exist
+            //TODO: check what exception does EF throw when sending user that does not exist
             Update(updatedUser);
         }
 
@@ -62,6 +64,6 @@ namespace EwsChat.Data
                 throw new UserNotFoundException("There is no user registered with given user id.");
             }
             Delete(userToRemove);
-        }
+        }        
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace EwsChat.Api.Controllers
-{
+{   
     [Authorize]
     [ApiController]
     [ProducesResponseType(401)]
@@ -44,7 +44,7 @@ namespace EwsChat.Api.Controllers
         /// <param name="lastUpdated"></param>
         /// <returns></returns>
         [ProducesResponseType(200)]
-        [HttpGet("{roomId}/{lastUpdated}")]
+        [HttpGet("{roomId}/{lastUpdated}")]       
         public async Task<IActionResult> Get(int roomId, string lastUpdated)
         {
             DateTime dateLastUpdated = DateTime.Parse(lastUpdated);

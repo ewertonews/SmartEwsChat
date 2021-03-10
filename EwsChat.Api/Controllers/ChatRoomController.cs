@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace EwsChat.Api.Controllers
 {
     [ApiController]
-    [Route("api/ewschat/rooms")]
+    [Route("api/ewschat/rooms")]   
     [Produces("application/json")]
     public class ChatRoomController : ControllerBase
     {
@@ -30,7 +30,7 @@ namespace EwsChat.Api.Controllers
             return new OkObjectResult(chatRooms);
         }
 
-
+       
         /// <summary>
         /// Gets all messages and participants from a Chat Room.
         /// </summary>
@@ -41,7 +41,7 @@ namespace EwsChat.Api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(404)]
-
+        
         public async Task<IActionResult> Get(int chatRoomId)
         {
             var chatRoom = await _repositoryFactory.ChatRoom.GetChatRoomByIdAsync(chatRoomId);

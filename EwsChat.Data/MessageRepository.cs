@@ -1,4 +1,5 @@
-﻿using EwsChat.Data.Models;
+﻿using EwsChat.Data.Exceptions;
+using EwsChat.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,6 @@ namespace EwsChat.Data
         public void AddMessage(Message message)
         {
             Create(message);
-        }
+        }              
     }
 }
