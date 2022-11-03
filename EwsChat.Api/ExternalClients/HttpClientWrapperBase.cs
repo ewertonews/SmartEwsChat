@@ -12,27 +12,22 @@ namespace EwsChat.Api.ExternalClients
     {
         private readonly HttpClient _httpClient;
 
-        public HttpClientWrapperBase(HttpClient httpClient)
+        protected HttpClientWrapperBase(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
         public async Task<T> Get(string url, Dictionary<string, string> headers = null)
         {
-            T result = null;
-
             var request = new HttpRequestMessage(HttpMethod.Get, new Uri(url));
 
             CreateRequestHeaders(headers, request);
 
-            result = await HandleRequest(result, request);
-
-            return result;
+            return  await HandleRequest(request);
         }
 
         public async Task<T> Post(T postObject, string url, Dictionary<string, string> headers = null)
         {
-            T result = null;
 
             var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
 
@@ -43,28 +38,24 @@ namespace EwsChat.Api.ExternalClients
 
             CreateRequestHeaders(headers, request);
 
-            result = await HandleRequest(result, request);
-
-            return result;
+            return await HandleRequest(request);
         }
 
         private static void CreateRequestHeaders(Dictionary<string, string> headers, HttpRequestMessage request)
         {
-            if (headers != null)
+            if (headers == null) return;
+            foreach (var headerKey in headers.Keys)
             {
-                foreach (var headerKey in headers.Keys)
-                {
-                    request.Headers.Add(headerKey, headers[headerKey]);
-                }
+                request.Headers.Add(headerKey, headers[headerKey]);
             }
         }
 
-        private async Task<T> HandleRequest(T result, HttpRequestMessage request)
+        private async Task<T> HandleRequest(HttpRequestMessage request)
         {
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
-            result = JsonSerializer.Deserialize<T>(responseContent);
+            var result = JsonSerializer.Deserialize<T>(responseContent);
 
             return result;
         }

@@ -3,7 +3,6 @@ using EwsChat.Data;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,22 +10,22 @@ namespace EwsChat.Api.Tests
 {
     public class ChatRoomControllerUnitTests
     {
-        Mock<IRepositoryFactory> repositoryFactoryMock;
-        private ChatRoomController chatRoomController;
+        Mock<IRepositoryFactory> _repositoryFactoryMock;
+        private ChatRoomController _chatRoomController;
 
         [SetUp]
         public void Setup()
         {
-            repositoryFactoryMock = new Mock<IRepositoryFactory>();
-            chatRoomController = new ChatRoomController(repositoryFactoryMock.Object);
+            _repositoryFactoryMock = new Mock<IRepositoryFactory>();
+            _chatRoomController = new ChatRoomController(_repositoryFactoryMock.Object);
         }
 
         [Test]
         public void GetShouldReturnOkAndAllRoomsInTheRepository()
         {
-            repositoryFactoryMock.Setup(mr => mr.ChatRoom.GetChatRoomsAsync()).Returns(Task.FromResult(SeedData.ChatRooms()));
+            _repositoryFactoryMock.Setup(mr => mr.ChatRoom.GetChatRoomsAsync()).Returns(Task.FromResult(SeedData.ChatRooms()));
 
-            var result = chatRoomController.Get().Result;
+            var result = _chatRoomController.Get().Result;
 
             Assert.That(result, Is.TypeOf<OkObjectResult>());
             Assert.That(((OkObjectResult)result).Value, Is.Not.Empty);
@@ -35,11 +34,11 @@ namespace EwsChat.Api.Tests
         [Test]
         public void GetShouldReturnOkAndARoomWithTheGivenId()
         {
-            int chatRoomId = 1001;
+            var chatRoomId = 1001;
             var chatRoom = SeedData.ChatRooms().First();
-            repositoryFactoryMock.Setup(mr => mr.ChatRoom.GetChatRoomByIdAsync(chatRoomId)).Returns(Task.FromResult(chatRoom));
+            _repositoryFactoryMock.Setup(mr => mr.ChatRoom.GetChatRoomByIdAsync(chatRoomId)).Returns(Task.FromResult(chatRoom));
 
-            var result = chatRoomController.Get(chatRoomId).Result;
+            var result = _chatRoomController.Get(chatRoomId).Result;
 
             Assert.That(result, Is.TypeOf<OkObjectResult>());
             Assert.That(((OkObjectResult)result).Value, Is.EqualTo(chatRoom));

@@ -9,7 +9,8 @@ namespace EwsChat.Data
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         protected ChatContext ChatContext { get; set; }
-        public RepositoryBase(ChatContext chatContext)
+
+        protected RepositoryBase(ChatContext chatContext)
         {
             ChatContext = chatContext;
         }

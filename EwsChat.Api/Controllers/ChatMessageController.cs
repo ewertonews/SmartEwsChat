@@ -14,7 +14,7 @@ namespace EwsChat.Api.Controllers
     [ProducesResponseType(401)]
     [ProducesResponseType(404)]
     [Produces("application/json")]
-    [Route("api/ewschat/messages")]
+    [Route("api/ewschat/messages/{roomId:int}")]
     public class ChatMessageController : ControllerBase
     {
         private readonly IRepositoryFactory _repositoryFactory;
@@ -30,7 +30,7 @@ namespace EwsChat.Api.Controllers
         /// <param name="roomId"></param>
         /// <returns></returns>
         [ProducesResponseType(200)]
-        [HttpGet("{roomId}", Name = "roomById")]
+        [HttpGet("", Name = "roomById")]
         public async Task<IActionResult> Get(int roomId)
         {
             var messages = await _repositoryFactory.Message.GetAllMessagesFromRoomAsync(roomId);
@@ -44,7 +44,7 @@ namespace EwsChat.Api.Controllers
         /// <param name="lastUpdated"></param>
         /// <returns></returns>
         [ProducesResponseType(200)]
-        [HttpGet("{roomId}/{lastUpdated}")]       
+        [HttpGet("{lastUpdated}")]       
         public async Task<IActionResult> Get(int roomId, string lastUpdated)
         {
             DateTime dateLastUpdated = DateTime.Parse(lastUpdated);
@@ -64,7 +64,7 @@ namespace EwsChat.Api.Controllers
         {
             _repositoryFactory.Message.AddMessage(message);
             await _repositoryFactory.SaveAsync();
-            return CreatedAtRoute("roomById", new { roomId = message.MessageId }, message);
+            return CreatedAtRoute("roomById", new { roomId = message.ChatRoomId }, message);
         }
 
     }

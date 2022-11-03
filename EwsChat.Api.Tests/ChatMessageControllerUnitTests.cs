@@ -1,6 +1,5 @@
 ﻿using EwsChat.Api.Controllers;
 using EwsChat.Data;
-using EwsChat.Data.Exceptions;
 using EwsChat.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -13,14 +12,14 @@ namespace EwsChat.Api.Tests
 {
     public class ChatMessageControllerUnitTests
     {
-        private Mock<IRepositoryFactory> repositoryFactoryMock;
-        private ChatMessageController chatMessageController;
+        private Mock<IRepositoryFactory> _repositoryFactoryMock;
+        private ChatMessageController _chatMessageController;
 
         [SetUp]
         public void Setup()
         {
-            repositoryFactoryMock = new Mock<IRepositoryFactory>();
-            chatMessageController = new ChatMessageController(repositoryFactoryMock.Object);
+            _repositoryFactoryMock = new Mock<IRepositoryFactory>();
+            _chatMessageController = new ChatMessageController(_repositoryFactoryMock.Object);
         }
 
         [Test]
@@ -42,9 +41,9 @@ namespace EwsChat.Api.Tests
                 Text = "Hello, yes I am!"
             };
             IEnumerable<Message> listOfMessages = new List<Message>() { message1, message2 };
-            repositoryFactoryMock.Setup(mr => mr.Message.GetAllMessagesFromRoomAsync(1001)).Returns(Task.FromResult(listOfMessages));
+            _repositoryFactoryMock.Setup(mr => mr.Message.GetAllMessagesFromRoomAsync(1001)).Returns(Task.FromResult(listOfMessages));
 
-            var result = chatMessageController.Get(1001).Result;
+            var result = _chatMessageController.Get(1001).Result;
 
             Assert.That(result, Is.TypeOf<OkObjectResult>());
             Assert.That(((OkObjectResult)result).Value, Is.Not.Empty);
@@ -64,9 +63,9 @@ namespace EwsChat.Api.Tests
             var lastUpdate = DateTime.Now;
 
             IEnumerable<Message> listOfMessages = new List<Message>() { message1 };
-            repositoryFactoryMock.Setup(mr => mr.Message.GetLatestMessagesFromRoomAsync(1001, lastUpdate)).Returns(Task.FromResult(listOfMessages));
+            _repositoryFactoryMock.Setup(mr => mr.Message.GetLatestMessagesFromRoomAsync(1001, lastUpdate)).Returns(Task.FromResult(listOfMessages));
 
-            var result = chatMessageController.Get(1001, lastUpdate.ToString()).Result;
+            var result = _chatMessageController.Get(1001, lastUpdate.ToString()).Result;
 
             Assert.That(result, Is.TypeOf<OkObjectResult>());
             Assert.That(((OkObjectResult)result).Value, Is.Not.Empty);
@@ -82,12 +81,12 @@ namespace EwsChat.Api.Tests
                 ChatRoomId = 1001,
                 Text = "Hey, can you take a blip?"
             };
-            repositoryFactoryMock.Setup(mr => mr.Message.AddMessage(message));
+            _repositoryFactoryMock.Setup(mr => mr.Message.AddMessage(message));
 
-            var result = chatMessageController.Post(message).Result;
+            var result = _chatMessageController.Post(message).Result;
 
             Assert.That(result, Is.TypeOf<CreatedAtRouteResult>());
-        }        
+        }
 
     }
 }

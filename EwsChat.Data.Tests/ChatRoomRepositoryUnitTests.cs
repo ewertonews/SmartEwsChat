@@ -1,7 +1,5 @@
-using EwsChat.Data.Models;
 using Moq;
 using NUnit.Framework;
-using System.Linq;
 
 namespace EwsChat.Data.Tests
 {
@@ -22,6 +20,6 @@ namespace EwsChat.Data.Tests
             Assert.Pass();
         }
 
-        
+
     }
 }
