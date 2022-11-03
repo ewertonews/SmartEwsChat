@@ -6,6 +6,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace EwsChat.Api.Tests
@@ -65,7 +66,7 @@ namespace EwsChat.Api.Tests
             IEnumerable<Message> listOfMessages = new List<Message>() { message1 };
             _repositoryFactoryMock.Setup(mr => mr.Message.GetLatestMessagesFromRoomAsync(1001, lastUpdate)).Returns(Task.FromResult(listOfMessages));
 
-            var result = _chatMessageController.Get(1001, lastUpdate.ToString()).Result;
+            var result = _chatMessageController.Get(1001, lastUpdate.ToString(CultureInfo.InvariantCulture)).Result;
 
             Assert.That(result, Is.TypeOf<OkObjectResult>());
             Assert.That(((OkObjectResult)result).Value, Is.Not.Empty);

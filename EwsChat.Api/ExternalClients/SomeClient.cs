@@ -10,11 +10,8 @@ namespace EwsChat.Api.ExternalClients
         //    {        
         //          client.BaseAddress = url here of from Configuration;
         //    });
-        private readonly HttpClient _httpClient;
-
         public SomeClient(HttpClient httpClient) : base(httpClient)
         {
-            _httpClient = httpClient;
         }
 
         public async Task<Something> GetSomethingAsync()
